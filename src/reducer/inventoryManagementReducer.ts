@@ -1,6 +1,17 @@
-import { Dispatch } from 'redux';
+import { Reducer } from 'redux';
+import { Product, Sales } from '../types';
 import { ACTIONS } from './actions.config';
-const initialState = {
+
+interface IInventoryManagementState {
+  products: Product[];
+  productsByCategory: Product[];
+  sales: Sales[];
+  salesByDate: Sales[];
+  loading: boolean;
+  error: null | string;
+}
+
+const initialState: IInventoryManagementState = {
   products: [],
   productsByCategory: [],
   sales: [],
@@ -9,9 +20,12 @@ const initialState = {
   error: null
 };
 
-const inventoryManangementReducer = (state = initialState, action: any) => {
+const inventoryManangementReducer: Reducer<IInventoryManagementState, any> = (
+  state = initialState,
+  action: any
+) => {
   switch (action.type) {
-    case ACTIONS.FETCH_DATA_LOADING:
+    case 'FETCH_DATA_LOADING':
       return {
         ...state,
         loading: true
@@ -102,14 +116,14 @@ const inventoryManangementReducer = (state = initialState, action: any) => {
         loading: false,
         error: 'Error removing Sales'
       };
-    case ACTIONS.UPDATE_PRODUCT_SUCCESS:
-      const updatedProduct = state.products.find(
-        ({ _id }) => _id !== action.payload.productId
-      );
-      const product = Object.assign({}, updatedProduct, action.payload.product);
-      return {
-        // look
-      };
+    // case ACTIONS.UPDATE_PRODUCT_SUCCESS:
+    //   const updatedProduct = state.products.find(
+    //     ({ _id }) => _id !== action.payload.productId
+    //   );
+    //   const product = Object.assign({}, updatedProduct, action.payload.product);
+    //   return {
+    //     // look
+    //   };
 
     case ACTIONS.ADD_PRODUCT_FAILURE:
     case ACTIONS.ADD_SALES_FAILURE:
