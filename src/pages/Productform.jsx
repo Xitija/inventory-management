@@ -84,7 +84,7 @@ const ProductForm = () => {
                 setProduct({ ...product, category: e.target.value })
               }
             >
-              <option value={''}>Select a report type</option>
+              <option value={''}>Select Product Category</option>
               {categories.map((category) => (
                 <option key={category} value={category}>
                   {category}

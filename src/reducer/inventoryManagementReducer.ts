@@ -4,18 +4,16 @@ import { ACTIONS } from './actions.config';
 
 interface IInventoryManagementState {
   products: Product[];
-  productsByCategory: Product[];
+  // productsByCategory: Product[];
   sales: Sales[];
-  salesByDate: Sales[];
+  // salesByDate: Sales[];
   loading: boolean;
   error: null | string;
 }
 
 const initialState: IInventoryManagementState = {
   products: [],
-  productsByCategory: [],
   sales: [],
-  salesByDate: [],
   loading: false,
   error: null
 };
@@ -40,7 +38,7 @@ const inventoryManangementReducer: Reducer<IInventoryManagementState, any> = (
     case ACTIONS.FETCHED_PRODUCTS_BY_CATEGORY:
       return {
         ...state,
-        productsByCategory: action.payload,
+        products: action.payload,
         loading: false,
         error: null
       };
@@ -60,7 +58,7 @@ const inventoryManangementReducer: Reducer<IInventoryManagementState, any> = (
     case ACTIONS.FETCHED_SALES_BY_DATE:
       return {
         ...state,
-        salesByDate: action.payload,
+        sales: action.payload,
         loading: false,
         error: null
       };
