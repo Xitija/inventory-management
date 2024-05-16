@@ -7,12 +7,12 @@ const HOST_URL = `https://24b8513f-07fb-4632-8174-1d15a59105f4-00-2glye6qlv32p3.
 const fetchProducts = () => async (dispatch: Dispatch) => {
   try {
     dispatch({ type: ACTIONS.FETCH_DATA_LOADING });
-    const response = await fetch(HOST_URL + `/products`);
+    const response = await fetch(HOST_URL + `/product`);
     let data = [];
     if (response.status === 200) {
       data = await response.json();
     }
-    dispatch({ type: ACTIONS.FETCH_PRODUCTS_SUCCESS, payload: data });
+    dispatch({ type: ACTIONS.FETCH_PRODUCTS_SUCCESS, payload: data.products });
   } catch (error) {
     console.error(error);
     dispatch({ type: ACTIONS.FETCH_PRODUCTS_FAILURE });
@@ -23,12 +23,15 @@ const fetchProductsByCategory =
   (category: string) => async (dispatch: Dispatch) => {
     try {
       dispatch({ type: ACTIONS.FETCH_DATA_LOADING });
-      const response = await fetch(HOST_URL + `/products/${category}`);
+      const response = await fetch(HOST_URL + `/product/category/${category}`);
       let data = [];
       if (response.status === 200) {
         data = await response.json();
       }
-      dispatch({ type: ACTIONS.FETCHED_PRODUCTS_BY_CATEGORY, payload: data });
+      dispatch({
+        type: ACTIONS.FETCHED_PRODUCTS_BY_CATEGORY,
+        payload: data.products
+      });
     } catch (error) {
       console.error(error);
       dispatch({ type: ACTIONS.FETCH_PRODUCTS_FAILURE });
@@ -43,7 +46,7 @@ const fetchSales = () => async (dispatch: Dispatch) => {
     if (response.status === 200) {
       data = await response.json();
     }
-    dispatch({ type: ACTIONS.FETCH_SALES_SUCCESS, payload: data });
+    dispatch({ type: ACTIONS.FETCH_SALES_SUCCESS, payload: data.sales });
   } catch (error) {
     console.error(error);
     dispatch({ type: ACTIONS.FETCH_SALES_FAILURE });
@@ -58,11 +61,13 @@ const fetchSalesByDate =
         HOST_URL +
           `/sales/date-range/?startDate=${startDate}&endDate=${endDate}`
       );
-      let data = [];
+      let data: any = {};
       if (response.status === 200) {
         data = await response.json();
+      } else {
+        data['sales'] = [];
       }
-      dispatch({ type: ACTIONS.FETCHED_SALES_BY_DATE, payload: data });
+      dispatch({ type: ACTIONS.FETCHED_SALES_BY_DATE, payload: data.sales });
     } catch (error) {
       console.error(error);
       dispatch({ type: ACTIONS.FETCH_SALES_FAILURE });
@@ -78,14 +83,34 @@ const addProduct = (productData: Product) => async (dispatch: Dispatch) => {
       },
       body: JSON.stringify(productData)
     });
-    let data = {};
+    let data: any = {};
     if (response.status === 201) {
       data = await response.json();
     }
-    dispatch({ type: ACTIONS.ADD_PRODUCT_SUCCESS, payload: data });
+    dispatch({ type: ACTIONS.ADD_PRODUCT_SUCCESS, payload: data.product });
   } catch (error) {
     console.error(error);
     dispatch({ type: ACTIONS.ADD_PRODUCT_FAILURE });
+  }
+};
+
+const updateProduct = (productData: Product) => async (dispatch: Dispatch) => {
+  try {
+    const response = await fetch(HOST_URL + `/product/${productData._id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(productData)
+    });
+    let data: any = {};
+    if (response.status === 200) {
+      data = await response.json();
+    }
+    dispatch({ type: ACTIONS.UPDATE_PRODUCT_SUCCESS, payload: data.product });
+  } catch (error) {
+    console.error(error);
+    dispatch({ type: ACTIONS.UPDATE_PRODUCT_FAILURE });
   }
 };
 
@@ -115,11 +140,11 @@ const addSales = (salesData: Sales) => async (dispatch: Dispatch) => {
       },
       body: JSON.stringify(salesData)
     });
-    let data = {};
+    let data: any = {};
     if (response.status === 201) {
       data = await response.json();
     }
-    dispatch({ type: ACTIONS.ADD_SALES_SUCCESS, payload: data });
+    dispatch({ type: ACTIONS.ADD_SALES_SUCCESS, payload: data.sales });
   } catch (error) {
     console.error(error);
     dispatch({ type: ACTIONS.ADD_SALES_FAILURE });
@@ -151,5 +176,6 @@ export {
   addProduct,
   deleteProduct,
   addSales,
-  deleteSales
+  deleteSales,
+  updateProduct
 };
