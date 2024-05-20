@@ -31,31 +31,35 @@ const SalesForm = () => {
   return (
     <div>
       <h1>Add Sales</h1>
-      <form>
-        <div>
-          <label>Select Category:</label>
-          <select
-            value={sale.productSold}
-            onChange={(e) => setSale({ ...sale, productSold: e.target.value })}
-          >
-            <option value={''}>Select Product</option>
-            {products.map((product) => (
-              <option key={product._id} value={product._id}>
-                {product.productName}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <input
-            type="number"
-            placeholder="Enter Product Quantity"
-            value={sale.quantity}
-            onChange={(e) => setSale({ ...sale, quantity: e.target.value })}
-          />
-        </div>
-        <button onClick={handleSaleForm}>Add Product</button>
-      </form>
+      <fieldset>
+        <form>
+          <div>
+            <label>Select Category:</label>
+            <select
+              value={sale.productSold}
+              onChange={(e) =>
+                setSale({ ...sale, productSold: e.target.value })
+              }
+            >
+              <option value={''}>Select Product</option>
+              {products.map((product) => (
+                <option key={product._id} value={product._id}>
+                  {product.productName}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <input
+              type="number"
+              placeholder="Enter Product Quantity"
+              value={sale.quantity}
+              onChange={(e) => setSale({ ...sale, quantity: e.target.value })}
+            />
+          </div>
+          <button onClick={handleSaleForm}>Add Product</button>
+        </form>
+      </fieldset>
     </div>
   );
 };

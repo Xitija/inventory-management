@@ -35,20 +35,45 @@ const Products = () => {
   return (
     <div>
       <h1>Products</h1>
-      <ul>
-        {products.map((product) => (
-          <li key={product._id}>
-            {product.productName}-{product.quantity}-{product.price}-
-            {product.category}
-            <button value={product._id} onClick={handleEditProduct}>
-              Edit Product
-            </button>
-            <button value={product._id} onClick={handleRemoveProduct}>
-              Remove Product
-            </button>
-          </li>
-        ))}
-      </ul>
+      <table>
+        <thead>
+          <tr>
+            <td>
+              <b>Product Name</b>
+            </td>
+            <td>
+              <b>Product Quantity</b>
+            </td>
+            <td>
+              <b>Product Price</b>
+            </td>
+            <td>
+              <b>Product Category</b>
+            </td>
+            <td>
+              <b>Action</b>
+            </td>
+          </tr>
+        </thead>
+        <tbody>
+          {products.map((product) => (
+            <tr key={product._id}>
+              <td>{product.productName}</td>
+              <td>{product.quantity}</td>
+              <td>{product.price}</td>
+              <td>{product.category}</td>
+              <td>
+                <button value={product._id} onClick={handleEditProduct}>
+                  Edit Product
+                </button>
+                <button value={product._id} onClick={handleRemoveProduct}>
+                  Remove Product
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };

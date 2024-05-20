@@ -43,7 +43,6 @@ const SalesHistory = () => {
     dispatch(fetchSalesByDate(dateRange.startDate, dateRange.endDate));
   }, [dispatch, dateRange]);
 
-  // show per unit price
   return (
     <div>
       <h1>Sales History</h1>
@@ -72,15 +71,35 @@ const SalesHistory = () => {
         />
       </p>
       {/* <button onClick={handleGetSalesHistory}>Submit</button> */}
-      {sales.length > 0 && (
-        <ul>
-          {sales.map((sale) => (
-            <li key={sale._id}>
-              {sale.productSold.productName}-{sale.quantity}-{sale.totalAmount}
-            </li>
-          ))}
-        </ul>
-      )}
+      <table>
+        <thead>
+          <tr>
+            <td>
+              <b>Product Name</b>
+            </td>
+            <td>
+              <b>Unit Price</b>
+            </td>
+            <td>
+              <b>Sale Quantity</b>
+            </td>
+            <td>
+              <b>Sale Total</b>
+            </td>
+          </tr>
+        </thead>
+        <tbody>
+          {sales.length > 0 &&
+            sales.map((sale) => (
+              <tr key={sale._id}>
+                <td>{sale.productSold.productName}</td>
+                <td>{sale.productSold.price}</td>
+                <td>{sale.quantity}</td>
+                <td>{sale.totalAmount}</td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
       {sales.length === 0 && <h2>Sales not found for given date range</h2>}
     </div>
   );

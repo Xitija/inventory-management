@@ -54,25 +54,38 @@ const SalesReports = () => {
         </select>
       </div>
       <button onClick={generateReport}>Generate Report</button>
-      <ul>
-        {product === 'All' &&
-          productSales.map((sale) => (
-            <li key={sale._id}>
-              {sale.productSold.productName}-{sale.productSold.price}-
-              {sale.quantity}-{sale.totalAmount}
-            </li>
-          ))}
-
-        {productSales.length > 0 &&
-          product === productSales[0].productSold.productName &&
-          productSales.length > 0 &&
-          productSales.map((sale) => (
-            <li key={sale._id}>
-              {sale.productSold.productName}-{sale.productSold.price}-
-              {sale.quantity}-{sale.totalAmount}
-            </li>
-          ))}
-      </ul>
+      <table>
+        <thead>
+          <tr>
+            <td>
+              <b>Product Name</b>
+            </td>
+            <td>
+              <b>Product Price</b>
+            </td>
+            <td>
+              <b>Sale Quantity</b>
+            </td>
+            <td>
+              <b>Sale Total</b>
+            </td>
+          </tr>
+        </thead>
+        <tbody>
+          {(product === 'All' ||
+            (productSales.length > 0 &&
+              product === productSales[0].productSold.productName &&
+              productSales.length > 0)) &&
+            productSales.map((sale) => (
+              <tr key={sale._id}>
+                <td>{sale.productSold.productName}</td>
+                <td>{sale.productSold.price}</td>
+                <td>{sale.quantity}</td>
+                <td>{sale.totalAmount}</td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
       {sales.length === 0 && <h2>Sales not found for given date range</h2>}
     </div>
   );

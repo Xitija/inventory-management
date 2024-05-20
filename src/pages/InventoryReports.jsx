@@ -7,7 +7,8 @@ export const InventoryReports = () => {
   const dispatch = useDispatch();
   const [viewProducts, setViewProducts] = useState({
     products: [],
-    productsByCategory: []
+    productsByCategory: [],
+    filter: ''
   });
   const [category, setCategory] = useState('All');
   const products = useSelector((state) => state.products);
@@ -30,13 +31,30 @@ export const InventoryReports = () => {
 
   //   categories.push('All');
   const generateReport = () => {
+    console.log(category, 'category');
     if (category === 'All') {
-      setViewProducts((oldProduct) => ({ ...oldProduct, products }));
+      setViewProducts((oldProduct) => ({
+        ...oldProduct,
+        products,
+        filter: 'products'
+      }));
     } else {
-      setViewProducts((oldProduct) => ({ ...oldProduct, productsByCategory }));
+      console.log(productsByCategory);
+      setViewProducts((oldProduct) => ({
+        ...oldProduct,
+        productsByCategory,
+        filter: 'productsByCategory'
+      }));
     }
   };
 
+  console.log(category === 'All' ? 'ok' : 'not ok');
+  console.log(
+    viewProducts.productsByCategory.length > 0 &&
+      category === viewProducts.productsByCategory[0].category
+      ? 'works'
+      : 'no'
+  );
   useEffect(() => {
     if (category !== 'All') {
       dispatch(fetchProductsByCategory(category));
@@ -62,24 +80,37 @@ export const InventoryReports = () => {
         </select>
       </div>
       <button onClick={generateReport}>Generate Report</button>
-      <ul>
-        {category === 'All' &&
-          viewProducts.products.map((product) => (
-            <li key={product._id}>
-              {product.productName}-{product.quantity}-{product.price}-
-              {product.category}
-            </li>
-          ))}
-        {/* {category ? category : "kjk"} - {viewProducts.productsByCategory[0] ? viewProducts.productsByCategory[0].category : "klkloo"} */}
-        {viewProducts.productsByCategory.length > 0 &&
-          category === viewProducts.productsByCategory[0].category &&
-          viewProducts.productsByCategory.map((product) => (
-            <li key={product._id}>
-              {product.productName}-{product.quantity}-{product.price}-
-              {product.category}
-            </li>
-          ))}
-      </ul>
+      <table>
+        <thead>
+          <tr>
+            <td>
+              <b>Product Name</b>
+            </td>
+            <td>
+              <b>Product Quantity</b>
+            </td>
+            <td>
+              <b>Product Price</b>
+            </td>
+            <td>
+              <b>Product Category</b>
+            </td>
+          </tr>
+        </thead>
+        <tbody>
+          {((category === 'All' && viewProducts.products.length > 0) ||
+            (viewProducts.productsByCategory.length > 0 &&
+              category === viewProducts.productsByCategory[0].category)) &&
+            viewProducts[viewProducts.filter].map((product) => (
+              <tr key={product._id}>
+                <td>{product.productName}</td>
+                <td>{product.quantity}</td>
+                <td>{product.price}</td>
+                <td>{product.category}</td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
     </div>
   );
 };
