@@ -1,6 +1,7 @@
 import { Route, Link, Routes } from 'react-router-dom';
 import { FaGithubSquare } from "react-icons/fa";
 import { FaServer } from "react-icons/fa6";
+import { SiPostman } from "react-icons/si";
 import ProductForm from './pages/Productform';
 import './App.css';
 import Products from './pages/Products';
@@ -24,6 +25,7 @@ function App() {
           <Link className="link" to="/add-sale">Add Sale</Link>
           <a className="link" target="_blank" href="https://github.com/Xitija/inventory-management"><FaGithubSquare size={30} /></a>
           <a className="link" target="_blank" href="https://replit.com/@xitija/InventoryManagement"><FaServer size={30} /></a>
+          <a className="link" target="_blank" href="https://documenter.getpostman.com/view/29778371/2sAYBbf9xL"><SiPostman size={30} /></a>
         </nav>
       </div>
       <div className="container">
