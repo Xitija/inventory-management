@@ -7,6 +7,7 @@ const Products = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   let products = useSelector((state) => state.products);
+  const error = useSelector((state) => state.error);
 
   //   if (!products.length) {
   //     dispatch(fetchProducts());
@@ -74,6 +75,20 @@ const Products = () => {
           ))}
         </tbody>
       </table>
+      {error && (
+        <div>
+          <h2>Server Not Active 😨</h2>
+          <h3>
+            <a
+              href="https://drive.google.com/file/d/1rNuOYExEXxZHQ4vykdjpxJ4jsSaIWs8C/view?usp=drive_link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Click here to view video
+            </a>
+          </h3>
+        </div>
+      )}
     </div>
   );
 };
